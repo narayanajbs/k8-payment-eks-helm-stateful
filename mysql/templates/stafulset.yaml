@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    name: payment
+    namespace: payment
+spec:
+    serviceName: mysql-headless
+    selector:
+        matchLabels:
+            project: payment
+            tier: db
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                project: payment
+                tier: db
+        spec:
+            containers:
+            - name: mysql
+              image: "narayanajbs/mysql: {{ .Values.deployment.imageVersion}}
+              volumeMount:
+              - name: mysql
+                mountPath: /var/lib/mysql
+    volumeClaimTemplates:
+        metadata:
+            name: mysql
+        sepc:
+            accessMode: ["ReadWriteOnce"]
+            storageClassName: payment-ebs
+            resource:
+                request:
+                    storage: 1Gi

@@ -1,0 +1,4 @@
+apiVerions: v1
+kind: Namespace
+metadata:
+  name: payment

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: mysql-headless
+    namespace: payment
+spec:
+  selector:
+    project: payment
+    tier: db
+  clusterIP: None
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: mysql
+    namespace: payment
+spec:
+  selector:
+    project: payment
+    tier: db
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
